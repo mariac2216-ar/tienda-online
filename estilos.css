@@ -115,3 +115,57 @@ footer {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #111;
+  color: white;
+  padding: 15px;
+}
+
+.logo {
+  width: 50px;
+}
+
+.categorias button {
+  margin: 5px;
+  background: #ff4081;
+}
+
+button {
+  background: #ff4081;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #000;
+  color: #fff;
+}
+
+header {
+  background: #000;
+  border-bottom: 1px solid #222;
+}
+
+.producto {
+  background: #111;
+  color: #fff;
+}
+
+.carrito {
+  background: #111;
+}
+
+button {
+  background: #000;
+  border: 1px solid #fff;
+}
+
+button:hover {
+  background: #fff;
+  color: #000;
+}
+

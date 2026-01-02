@@ -1,81 +1,246 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moda Mary</title>
 
-    <title>Tienda de Ropa</title>
-    <link rel="stylesheet" href="estilos.css">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #222;
+}
+header h1{margin:0}
+
+/* CATEGORIAS */
+.categorias{
+  display:flex;
+  gap:10px;
+  padding:15px;
+  flex-wrap:wrap;
+}
+.categorias button{
+  padding:10px;
+  background:#721049;
+  color:#fff;
+  border:1px solid #fff;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+/* PRODUCTOS */
+.productos{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+  padding:20px;
+}
+.producto{
+  background:#911d61;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+}
+.producto img{
+  width:100%;
+  border-radius:10px;
+}
+.producto button{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+  background:#cb2f7b;
+  color:#fff;
+  border:1px solid #fff;
+  cursor:pointer;
+}
+.producto button:hover{
+  background:#fff;
+  color:#000;
+}
+
+/* CARRITO */
+.carrito{
+  padding:20px;
+  border-top:1px solid #222;
+}
+.carrito-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.carrito-item input{
+  width:50px;
+}
+.carrito button{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+}
+
+/* CONTACTO */
+.contacto{
+  padding:40px 15px;
+  text-align:center;
+}
+.contacto form{
+  max-width:600px;
+  margin:auto;
+}
+.contacto input,
+.contacto textarea{
+  width:100%;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:none;
+}
+.contacto textarea{height:150px}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:20px;
+  border-top:1px solid #222;
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <h1>Moda Mariju</h1>
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Productos</a>
-            <a href="#">Contacto</a>
-        </nav>
-    </header>
+<header>
+  <h1>tienda online mariju</h1>
+  <div>🛒 <span id="contador">0</span></div>
+</header>
 
-    <section class="productos">
-        <h2>Nuestros Productos</h2>
-
-        <div class="producto">
-    <img src="chaqueta.jpeg" alt="chaqueta">
-    <h3>chaqueta de cuero</h3>
-    <p>color blanco "Mujer"</p>
-    <p>$850 MXN</p>
-    <button onclick="alert('Producto agregado al carrito')">
-    Agregar al carrito
-</button>
-
+<!-- CATEGORIAS -->
+<div class="categorias">
+  <button onclick="filtrar('todos')">Todos</button>
+  <button onclick="filtrar('camisas')">Camisas</button>
+  <button onclick="filtrar('pantalones')">Pantalones</button>
+  <button onclick="filtrar('vestidos')">Vestidos</button>
 </div>
 
+<!-- PRODUCTOS -->
+<section class="productos" id="productos"></section>
 
-        <div class="producto">
-            <h3>Pantalón</h3>
-            <p>Pantalón de mezclilla</p>
-            <p>$500 MXN</p>
-            <button onclick="alert('Producto agregado al carrito')">
-    Agregar al carrito
-</button>
-
-        </div>
-
-        <div class="producto">
-            <h3>Sudadera</h3>
-            <p>Sudadera cómoda</p>
-            <p>$600 MXN</p>
-            <button onclick="alert('Producto agregado al carrito')">
-    Agregar al carrito
-</button>
-
-        </div>
-    </section>
-
-
-<section class="contacto">
-    <h2>Contáctanos</h2>
-
-    <form https://formspree.io/f/xpqwpejw></form>
-        <input type="text" placeholder="Nombre" required>
-        <input type="email" placeholder="Correo electrónico" required>
-        <textarea placeholder="Mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-    </form>
+<!-- CARRITO -->
+<section class="carrito">
+  <h2>Carrito</h2>
+  <div id="listaCarrito"></div>
+  <h3>Total: $<span id="total">0</span></h3>
+  <button onclick="finalizarCompra()">Finalizar compra</button>
 </section>
 
-
+<!-- CONTACTO -->
+<section class="contacto">
+  <h2>Contáctanos</h2>
+  <form>
+    <input type="text" placeholder="Nombre" required>
+    <input type="email" placeholder="Correo electrónico" required>
+    <textarea placeholder="Mensaje" required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+</section>
 
 <footer>
-        <p>© 2026 Moda Mary</p>
-    </footer>
+  © 2026 Moda MarC
+</footer>
 
-    <a href="https://wa.me/9241789298" class="whatsapp" target="_blank">
-    💬
-</a>
+<script>
+const productos = [
+  {id:1,nombre:"Camisa Negra",precio:300,categoria:"camisas",img:"https://via.placeholder.com/300"},
+  {id:2,nombre:"Vestido Elegante",precio:600,categoria:"vestidos",img:"https://via.placeholder.com/300"},
+  {id:3,nombre:"Pantalón Casual",precio:450,categoria:"pantalones",img:"https://via.placeholder.com/300"},
+  {id:4,nombre:"Camisa Blanca",precio:280,categoria:"camisas",img:"https://via.placeholder.com/300"}
+];
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+function mostrarProductos(lista){
+  const cont = document.getElementById("productos");
+  cont.innerHTML="";
+  lista.forEach(p=>{
+    cont.innerHTML+=`
+      <div class="producto">
+        <img src="${p.img}">
+        <h3>${p.nombre}</h3>
+        <p>$${p.precio}</p>
+        <button onclick="agregar(${p.id})">Agregar al carrito</button>
+      </div>`;
+  });
+}
+
+function filtrar(cat){
+  if(cat==="todos") mostrarProductos(productos);
+  else mostrarProductos(productos.filter(p=>p.categoria===cat));
+}
+
+function agregar(id){
+  const prod = productos.find(p=>p.id===id);
+  const existe = carrito.find(p=>p.id===id);
+  if(existe) existe.cantidad++;
+  else carrito.push({...prod,cantidad:1});
+  guardar();
+}
+
+function mostrarCarrito(){
+  const lista=document.getElementById("listaCarrito");
+  const total=document.getElementById("total");
+  lista.innerHTML="";
+  let suma=0;
+
+  carrito.forEach(p=>{
+    suma+=p.precio*p.cantidad;
+    lista.innerHTML+=`
+      <div class="carrito-item">
+        ${p.nombre} 
+        <input type="number" value="${p.cantidad}" min="1" onchange="cambiar(${p.id},this.value)">
+        <button onclick="eliminar(${p.id})">❌</button>
+      </div>`;
+  });
+
+  total.textContent=suma;
+  document.getElementById("contador").textContent=carrito.length;
+}
+
+function cambiar(id,cant){
+  carrito.find(p=>p.id===id).cantidad=parseInt(cant);
+  guardar();
+}
+
+function eliminar(id){
+  carrito=carrito.filter(p=>p.id!==id);
+  guardar();
+}
+
+function finalizarCompra(){
+  alert("Compra finalizada 🎉");
+  carrito=[];
+  guardar();
+}
+
+function guardar(){
+  localStorage.setItem("carrito",JSON.stringify(carrito));
+  mostrarCarrito();
+}
+
+mostrarProductos(productos);
+mostrarCarrito();
+</script>
 
 </body>
 </html>
